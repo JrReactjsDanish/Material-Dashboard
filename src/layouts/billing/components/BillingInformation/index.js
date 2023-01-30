@@ -22,8 +22,51 @@ import MDTypography from "components/MDTypography";
 
 // Billing page components
 import Bill from "layouts/billing/components/Bill";
+import { useState } from "react";
 
 function BillingInformation() {
+  let data = [
+    {
+      id: 1,
+      name: "oliver liam",
+      company: "viking burrito",
+      email: "oliver@burrito.com",
+      vat: "FRB1235476",
+      noGutter: false,
+    },
+
+    {
+      id: 2,
+      name: "lucas harper",
+      company: "stone tech zone",
+      email: "lucas@stone-tech.com",
+      vat: "FRB1235476",
+      noGutter: false,
+    },
+
+    {
+      id: 3,
+      name: "ethan james",
+      company: "fiber notion",
+      email: "ethan@fiber.com",
+      vat: "FRB1235476",
+      noGutter: true,
+    },
+  ];
+
+  const [userInfo, setUserInfo] = useState(data);
+
+  const deleteUserInfo = (id, searchTodo) => {
+    console.log("id", id);
+    console.log("Search todo", searchTodo);
+
+    console.log("Delete");
+    var deleteuser = searchTodo.filter((item) => item.id !== id);
+    console.log("deleteuser", deleteuser);
+    setUserInfo(deleteuser);
+    console.log("User Info Deleted");
+  };
+
   return (
     <Card id="delete-account">
       <MDBox pt={3} px={2}>
@@ -33,7 +76,9 @@ function BillingInformation() {
       </MDBox>
       <MDBox pt={1} pb={2} px={2}>
         <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
-          <Bill
+          <Bill userInfo={userInfo} deleteUserInfo={deleteUserInfo} />
+
+          {/* <Bill
             name="oliver liam"
             company="viking burrito"
             email="oliver@burrito.com"
@@ -51,7 +96,7 @@ function BillingInformation() {
             email="ethan@fiber.com"
             vat="FRB1235476"
             noGutter
-          />
+          /> */}
         </MDBox>
       </MDBox>
     </Card>

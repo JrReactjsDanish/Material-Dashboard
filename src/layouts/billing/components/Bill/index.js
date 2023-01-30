@@ -26,10 +26,20 @@ import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React context
 import { useMaterialUIController } from "context";
+import { useEffect, useState } from "react";
 
-function Bill({ name, company, email, vat, noGutter }) {
+function Bill({ userInfo, deleteUserInfo }) {
+  const [searchInfo, setSearchInfo] = useState(userInfo);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
+
+  const deleteBillingInfo = () => {
+    console.log("Deleted");
+  };
+
+  useEffect(() => {
+    userInfo && setSearchInfo(userInfo);
+  }, [userInfo]);
 
   return (
     <MDBox
@@ -37,58 +47,72 @@ function Bill({ name, company, email, vat, noGutter }) {
       display="flex"
       justifyContent="space-between"
       alignItems="flex-start"
+      flexDirection="column"
       bgColor={darkMode ? "transparent" : "grey-100"}
       borderRadius="lg"
       p={3}
-      mb={noGutter ? 0 : 1}
+      mb={searchInfo.noGutter ? 0 : 1}
       mt={2}
     >
-      <MDBox width="100%" display="flex" flexDirection="column">
-        <MDBox
-          display="flex"
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "center" }}
-          flexDirection={{ xs: "column", sm: "row" }}
-          mb={2}
-        >
-          <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-            {name}
-          </MDTypography>
+      {searchInfo?.map((item, index) => {
+        return (
+          <MDBox width="100%" display="flex" flexDirection="column" key={index} p={2}>
+            <MDBox
+              display="flex"
+              justifyContent="space-between"
+              alignItems={{ xs: "flex-start", sm: "center" }}
+              flexDirection={{ xs: "column", sm: "row" }}
+              mb={2}
+            >
+              <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                {item?.name}
+              </MDTypography>
 
-          <MDBox display="flex" alignItems="center" mt={{ xs: 2, sm: 0 }} ml={{ xs: -1.5, sm: 0 }}>
-            <MDBox mr={1}>
-              <MDButton variant="text" color="error">
-                <Icon>delete</Icon>&nbsp;delete
-              </MDButton>
+              <MDBox
+                display="flex"
+                alignItems="center"
+                mt={{ xs: 2, sm: 0 }}
+                ml={{ xs: -1.5, sm: 0 }}
+              >
+                <MDBox mr={1}>
+                  <MDButton
+                    variant="text"
+                    color="error"
+                    onClick={() => deleteUserInfo(item?.id, searchInfo)}
+                  >
+                    <Icon>delete</Icon>&nbsp;delete
+                  </MDButton>
+                </MDBox>
+                <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+                  <Icon>edit</Icon>&nbsp;edit
+                </MDButton>
+              </MDBox>
             </MDBox>
-            <MDButton variant="text" color={darkMode ? "white" : "dark"}>
-              <Icon>edit</Icon>&nbsp;edit
-            </MDButton>
+            <MDBox mb={1} lineHeight={0}>
+              <MDTypography variant="caption" color="text">
+                Company Name:&nbsp;&nbsp;&nbsp;
+                <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                  {item?.company}
+                </MDTypography>
+              </MDTypography>
+            </MDBox>
+            <MDBox mb={1} lineHeight={0}>
+              <MDTypography variant="caption" color="text">
+                Email Address:&nbsp;&nbsp;&nbsp;
+                <MDTypography variant="caption" fontWeight="medium">
+                  {item?.email}
+                </MDTypography>
+              </MDTypography>
+            </MDBox>
+            <MDTypography variant="caption" color="text">
+              VAT Number:&nbsp;&nbsp;&nbsp;
+              <MDTypography variant="caption" fontWeight="medium">
+                {item?.vat}
+              </MDTypography>
+            </MDTypography>
           </MDBox>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Company Name:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-              {company}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDBox mb={1} lineHeight={0}>
-          <MDTypography variant="caption" color="text">
-            Email Address:&nbsp;&nbsp;&nbsp;
-            <MDTypography variant="caption" fontWeight="medium">
-              {email}
-            </MDTypography>
-          </MDTypography>
-        </MDBox>
-        <MDTypography variant="caption" color="text">
-          VAT Number:&nbsp;&nbsp;&nbsp;
-          <MDTypography variant="caption" fontWeight="medium">
-            {vat}
-          </MDTypography>
-        </MDTypography>
-      </MDBox>
+        );
+      })}
     </MDBox>
   );
 }
