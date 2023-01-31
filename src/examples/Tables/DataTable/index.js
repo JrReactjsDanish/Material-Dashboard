@@ -49,12 +49,14 @@ function DataTable({
   isSorted,
   noEndBorder,
 }) {
-  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : 10;
   const entries = entriesPerPage.entries
     ? entriesPerPage.entries.map((el) => el.toString())
     : ["5", "10", "15", "20", "25"];
   const columns = useMemo(() => table.columns, [table]);
   const data = useMemo(() => table.rows, [table]);
+
+  console.log("table.rows", table.rows);
+  console.log("Data", data);
 
   const tableInstance = useTable(
     { columns, data, initialState: { pageIndex: 0 } },
@@ -81,8 +83,27 @@ function DataTable({
     state: { pageIndex, pageSize, globalFilter },
   } = tableInstance;
 
+  const defaultValue = entriesPerPage.defaultValue ? entriesPerPage.defaultValue : rows.length;
+
+  const [paginationPage, setPaginationPage] = useState(page);
+
+  //TABLE PAGINATION
+  const [pages, setPages] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPages(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(event.target.value);
+    setPages(0);
+  };
+
   // Set the default value for the entries per page when component mounts
   useEffect(() => setPageSize(defaultValue || 10), [defaultValue]);
+
+  useEffect(() => setPaginationPage(page), [page]);
 
   // Set the entries per page value based on the select value
   const setEntriesPerPage = (value) => setPageSize(value);
@@ -146,19 +167,6 @@ function DataTable({
     entriesEnd = pageSize * (pageIndex + 1);
   }
 
-  //TABLE PAGINATION
-  const [pages, setPages] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPages(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPages(0);
-  };
-
   return (
     <>
       <TableContainer sx={{ boxShadow: "none" }}>
@@ -215,27 +223,32 @@ function DataTable({
               </TableRow>
             ))}
           </MDBox>
+
           <TableBody {...getTableBodyProps()}>
-            {page.map((row, key) => {
-              prepareRow(row);
-              return (
-                <TableRow {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
-                    <DataTableBodyCell
-                      noBorder={noEndBorder && rows.length - 1 === key}
-                      align={cell.column.align ? cell.column.align : "left"}
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
-                    </DataTableBodyCell>
-                  ))}
-                </TableRow>
-              );
-            })}
+            {paginationPage
+              .slice(pages * rowsPerPage, pages * rowsPerPage + rowsPerPage)
+              .map((row, key) => {
+                prepareRow(row);
+                return (
+                  <TableRow {...row.getRowProps()}>
+                    {row.cells.map((cell) => (
+                      <DataTableBodyCell
+                        noBorder={noEndBorder && rows.length - 1 === key}
+                        align={cell.column.align ? cell.column.align : "left"}
+                        {...cell.getCellProps()}
+                      >
+                        {cell.render("Cell")}
+                      </DataTableBodyCell>
+                    ))}
+                  </TableRow>
+                );
+              })}
           </TableBody>
         </Table>
 
-        <MDBox
+        {/* DEFAULT PAGINATION */}
+
+        {/* <MDBox
           display="flex"
           flexDirection={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
@@ -277,7 +290,7 @@ function DataTable({
               )}
             </MDPagination>
           )}
-        </MDBox>
+        </MDBox> */}
       </TableContainer>
       <TablePagination
         component="div"
