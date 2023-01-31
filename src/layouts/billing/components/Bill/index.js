@@ -33,10 +33,8 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, Typography } from "@mui/material";
-import typography from "assets/theme/base/typography";
 
 function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyState, onSubmit }) {
   const [searchInfo, setSearchInfo] = useState(userInfo);

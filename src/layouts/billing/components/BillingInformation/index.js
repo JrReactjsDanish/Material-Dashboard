@@ -24,14 +24,13 @@ import MDTypography from "components/MDTypography";
 
 // Billing page components
 import Bill from "layouts/billing/components/Bill";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Dialog box
 import TextField from "@mui/material/TextField";
 // import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
 function BillingInformation() {
@@ -73,21 +72,9 @@ function BillingInformation() {
     email: "",
     vat: "",
   });
-  // const [isSubmit, setIsSubmit] = useState(false);
 
   //Open and close dialogue box
   const [open, setOpen] = useState(false);
-
-  // useEffect(() => {
-  //   if (editBillingInfo !== undefined && editBillingInfo !== null) {
-  //     setMyState({
-  //       name: editBillingInfo?.name,
-  //       cmopany: editBillingInfo?.company,
-  //       email: editBillingInfo?.email,
-  //       vat: editBillingInfo?.vat,
-  //     });
-  //   }
-  // }, [editBillingInfo]);
 
   // Add billing info
   const handleSubmit = (name, company, email, vat) => {
@@ -125,14 +112,11 @@ function BillingInformation() {
 
   const onSubmit = (event) => {
     event.preventDefault();
-    // setIsSubmit(true);
 
     if (editBillingInfo) {
       updateInfo(editBillingInfo.id, myState?.name, myState?.company, myState?.email, myState?.vat);
-      // setIsSubmit(false);
     } else {
       handleSubmit(myState?.name, myState?.company, myState?.email, myState?.vat);
-      // setIsSubmit(false);
     }
     setMyState({
       name: "",
@@ -159,73 +143,6 @@ function BillingInformation() {
   // const storeVal = (e) => {
   //   var { name, value } = e;
   //   setMyState({ ...myState, [name]: value });
-  // };
-
-  // const dialogForm = () => {
-  //   return (
-  //     <Dialog open={open} onClose={handleClose}>
-  //       <DialogTitle>Bill Information</DialogTitle>
-  //       <DialogContent>
-  //         <TextField
-  //           autoFocus
-  //           margin="dense"
-  //           name="name"
-  //           label="Enter Name"
-  //           value={myState?.name}
-  //           type="text"
-  //           fullWidth
-  //           variant="outlined"
-  //           onChange={(e) => {
-  //             // storeVal("name", e.target.value);
-  //             setMyState({ name: e.target.value });
-  //           }}
-  //         />
-  //         <TextField
-  //           margin="dense"
-  //           name="company"
-  //           label="Enter Company"
-  //           value={myState?.company}
-  //           type="text"
-  //           fullWidth
-  //           variant="outlined"
-  //           onChange={(e) => {
-  //             // storeVal("company", e.target.value);
-  //             setMyState({ company: e.target.value });
-  //           }}
-  //         />
-  //         <TextField
-  //           margin="dense"
-  //           name="email"
-  //           label="Email Address"
-  //           value={myState?.email}
-  //           type="email"
-  //           fullWidth
-  //           variant="outlined"
-  //           onChange={(e) => {
-  //             // storeVal("email", e.target.value);
-  //             setMyState({ email: e.target.value });
-  //           }}
-  //         />
-  //         <TextField
-  //           margin="dense"
-  //           name="vat"
-  //           label="Enter VAT"
-  //           value={myState?.vat}
-  //           type="text"
-  //           fullWidth
-  //           variant="outlined"
-  //           onChange={(e) => {
-  //             // storeVal("vat", e.target.value);
-  //             setMyState({ vat: e.target.value });
-  //           }}
-  //         />
-  //       </DialogContent>
-  //       <DialogActions>
-  //         <Button onClick={handleClose}>Cancel</Button>
-  //         <Button onClick={(e) => onSubmit(e)}>Add</Button>
-  //       </DialogActions>
-  //     </Dialog>
-  //   );
   // };
 
   return (
@@ -308,7 +225,6 @@ function BillingInformation() {
             deleteUserInfo={deleteUserInfo}
             setEditBillingInfo={setEditBillingInfo}
             updateInfo={updateInfo}
-            // dialogForm={dialogForm}
             myState={myState}
             setMyState={setMyState}
             onSubmit={onSubmit}
