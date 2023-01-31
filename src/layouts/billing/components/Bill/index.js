@@ -35,7 +35,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import typography from "assets/theme/base/typography";
 
 function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyState, onSubmit }) {
@@ -81,148 +81,152 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
       mb={searchInfo.noGutter ? 0 : 1}
       mt={2}
     >
-      {searchInfo?.map((item, index) => {
-        return (
-          <MDBox width="100%" display="flex" flexDirection="column" key={index} p={2}>
-            <MDBox
-              display="flex"
-              justifyContent="space-between"
-              alignItems={{ xs: "flex-start", sm: "center" }}
-              flexDirection={{ xs: "column", sm: "row" }}
-              mb={2}
-            >
-              <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
-                {item?.name}
-              </MDTypography>
-
+      {searchInfo == "" ? (
+        <Typography mt={2}>No Records To Show!!!</Typography>
+      ) : (
+        searchInfo?.map((item, index) => {
+          return (
+            <MDBox width="100%" display="flex" flexDirection="column" key={index} p={2}>
               <MDBox
                 display="flex"
-                alignItems="center"
-                mt={{ xs: 2, sm: 0 }}
-                ml={{ xs: -1.5, sm: 0 }}
+                justifyContent="space-between"
+                alignItems={{ xs: "flex-start", sm: "center" }}
+                flexDirection={{ xs: "column", sm: "row" }}
+                mb={2}
               >
-                <MDBox mr={1}>
+                <MDTypography variant="button" fontWeight="medium" textTransform="capitalize">
+                  {item?.name}
+                </MDTypography>
+
+                <MDBox
+                  display="flex"
+                  alignItems="center"
+                  mt={{ xs: 2, sm: 0 }}
+                  ml={{ xs: -1.5, sm: 0 }}
+                >
+                  <MDBox mr={1}>
+                    <MDButton
+                      variant="text"
+                      color="error"
+                      onClick={() => deleteUserInfo(item?.id, searchInfo)}
+                    >
+                      <Icon>delete</Icon>&nbsp;delete
+                    </MDButton>
+                  </MDBox>
                   <MDButton
                     variant="text"
-                    color="error"
-                    onClick={() => deleteUserInfo(item?.id, searchInfo)}
+                    color={darkMode ? "white" : "dark"}
+                    onClick={() => {
+                      handleClickOpen();
+                      setMyState({
+                        id: index + 1,
+                        name: item?.name,
+                        company: item?.company,
+                        email: item?.email,
+                        vat: item?.vat,
+                      });
+                      updatedBillingInfo(item);
+                    }}
                   >
-                    <Icon>delete</Icon>&nbsp;delete
+                    <Icon>edit</Icon>&nbsp;edit
                   </MDButton>
                 </MDBox>
-                <MDButton
-                  variant="text"
-                  color={darkMode ? "white" : "dark"}
-                  onClick={() => {
-                    handleClickOpen();
-                    setMyState({
-                      id: index + 1,
-                      name: item?.name,
-                      company: item?.company,
-                      email: item?.email,
-                      vat: item?.vat,
-                    });
-                    updatedBillingInfo(item);
-                  }}
-                >
-                  <Icon>edit</Icon>&nbsp;edit
-                </MDButton>
               </MDBox>
-            </MDBox>
-            <Dialog open={editOpen} onClose={handleClose}>
-              <DialogTitle>Update Your Bill Information</DialogTitle>
-              <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  name="name"
-                  label="Enter Name"
-                  value={myState?.name}
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(e) => {
-                    // storeVal("name", e.target.value);
-                    setMyState({ ...myState, name: e.target.value });
-                  }}
-                />
-                <TextField
-                  margin="dense"
-                  name="company"
-                  label="Enter Company"
-                  value={myState?.company}
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(e) => {
-                    // storeVal("company", e.target.value);
-                    setMyState({ ...myState, company: e.target.value });
-                  }}
-                />
-                <TextField
-                  margin="dense"
-                  name="email"
-                  label="Email Address"
-                  value={myState?.email}
-                  type="email"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(e) => {
-                    // storeVal("email", e.target.value);
-                    setMyState({ ...myState, email: e.target.value });
-                  }}
-                />
-                <TextField
-                  margin="dense"
-                  name="vat"
-                  label="Enter VAT"
-                  value={myState?.vat}
-                  type="text"
-                  fullWidth
-                  variant="outlined"
-                  onChange={(e) => {
-                    // storeVal("vat", e.target.value);
-                    setMyState({ ...myState, vat: e.target.value });
-                  }}
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button
-                  onClick={(e) => {
-                    onSubmit(e, item.id);
-                    setEditOpen(false);
-                  }}
-                >
-                  Update
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <MDBox mb={1} lineHeight={0}>
-              <MDTypography variant="caption" color="text">
-                Company Name:&nbsp;&nbsp;&nbsp;
-                <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
-                  {item?.company}
+              <Dialog open={editOpen} onClose={handleClose}>
+                <DialogTitle>Update Your Bill Information</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="name"
+                    label="Enter Name"
+                    value={myState?.name}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={(e) => {
+                      // storeVal("name", e.target.value);
+                      setMyState({ ...myState, name: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    margin="dense"
+                    name="company"
+                    label="Enter Company"
+                    value={myState?.company}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={(e) => {
+                      // storeVal("company", e.target.value);
+                      setMyState({ ...myState, company: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    margin="dense"
+                    name="email"
+                    label="Email Address"
+                    value={myState?.email}
+                    type="email"
+                    fullWidth
+                    variant="outlined"
+                    onChange={(e) => {
+                      // storeVal("email", e.target.value);
+                      setMyState({ ...myState, email: e.target.value });
+                    }}
+                  />
+                  <TextField
+                    margin="dense"
+                    name="vat"
+                    label="Enter VAT"
+                    value={myState?.vat}
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    onChange={(e) => {
+                      // storeVal("vat", e.target.value);
+                      setMyState({ ...myState, vat: e.target.value });
+                    }}
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button
+                    onClick={(e) => {
+                      onSubmit(e, item.id);
+                      setEditOpen(false);
+                    }}
+                  >
+                    Update
+                  </Button>
+                </DialogActions>
+              </Dialog>
+              <MDBox mb={1} lineHeight={0}>
+                <MDTypography variant="caption" color="text">
+                  Company Name:&nbsp;&nbsp;&nbsp;
+                  <MDTypography variant="caption" fontWeight="medium" textTransform="capitalize">
+                    {item?.company}
+                  </MDTypography>
                 </MDTypography>
-              </MDTypography>
-            </MDBox>
-            <MDBox mb={1} lineHeight={0}>
+              </MDBox>
+              <MDBox mb={1} lineHeight={0}>
+                <MDTypography variant="caption" color="text">
+                  Email Address:&nbsp;&nbsp;&nbsp;
+                  <MDTypography variant="caption" fontWeight="medium">
+                    {item?.email}
+                  </MDTypography>
+                </MDTypography>
+              </MDBox>
               <MDTypography variant="caption" color="text">
-                Email Address:&nbsp;&nbsp;&nbsp;
+                VAT Number:&nbsp;&nbsp;&nbsp;
                 <MDTypography variant="caption" fontWeight="medium">
-                  {item?.email}
+                  {item?.vat}
                 </MDTypography>
               </MDTypography>
             </MDBox>
-            <MDTypography variant="caption" color="text">
-              VAT Number:&nbsp;&nbsp;&nbsp;
-              <MDTypography variant="caption" fontWeight="medium">
-                {item?.vat}
-              </MDTypography>
-            </MDTypography>
-          </MDBox>
-        );
-      })}
+          );
+        })
+      )}
     </MDBox>
   );
 }
