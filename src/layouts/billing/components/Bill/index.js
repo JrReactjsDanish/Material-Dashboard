@@ -28,8 +28,19 @@ import MDButton from "components/MDButton";
 import { useMaterialUIController } from "context";
 import { useEffect, useState } from "react";
 
-function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, dialogForm }) {
+// Dialog box
+import TextField from "@mui/material/TextField";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import { Button } from "@mui/material";
+import typography from "assets/theme/base/typography";
+
+function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyState, onSubmit }) {
   const [searchInfo, setSearchInfo] = useState(userInfo);
+  const [editOpen, setEditOpen] = useState(false);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
@@ -39,12 +50,22 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, dialogForm }) {
 
   // To update the todo with id
   const updatedBillingInfo = ({ id }) => {
-    console.log("inside updated TODO", id);
-
-    let findInfo = userInfo.find((info) => info.id === id);
-
-    console.log("findTodo", findInfo);
+    let findInfo = searchInfo.find((info) => info.id === id);
     setEditBillingInfo(findInfo);
+  };
+
+  const handleClickOpen = () => {
+    setEditOpen(true);
+  };
+
+  const handleClose = () => {
+    setEditOpen(false);
+    setMyState({
+      name: "",
+      company: "",
+      email: "",
+      vat: "",
+    });
   };
 
   return (
@@ -92,12 +113,91 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, dialogForm }) {
                 <MDButton
                   variant="text"
                   color={darkMode ? "white" : "dark"}
-                  onClick={() => updatedBillingInfo()}
+                  onClick={() => {
+                    handleClickOpen();
+                    setMyState({
+                      id: index + 1,
+                      name: item?.name,
+                      company: item?.company,
+                      email: item?.email,
+                      vat: item?.vat,
+                    });
+                    updatedBillingInfo(item);
+                  }}
                 >
                   <Icon>edit</Icon>&nbsp;edit
                 </MDButton>
               </MDBox>
             </MDBox>
+            <Dialog open={editOpen} onClose={handleClose}>
+              <DialogTitle>Update Your Bill Information</DialogTitle>
+              <DialogContent>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  name="name"
+                  label="Enter Name"
+                  value={myState?.name}
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => {
+                    // storeVal("name", e.target.value);
+                    setMyState({ ...myState, name: e.target.value });
+                  }}
+                />
+                <TextField
+                  margin="dense"
+                  name="company"
+                  label="Enter Company"
+                  value={myState?.company}
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => {
+                    // storeVal("company", e.target.value);
+                    setMyState({ ...myState, company: e.target.value });
+                  }}
+                />
+                <TextField
+                  margin="dense"
+                  name="email"
+                  label="Email Address"
+                  value={myState?.email}
+                  type="email"
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => {
+                    // storeVal("email", e.target.value);
+                    setMyState({ ...myState, email: e.target.value });
+                  }}
+                />
+                <TextField
+                  margin="dense"
+                  name="vat"
+                  label="Enter VAT"
+                  value={myState?.vat}
+                  type="text"
+                  fullWidth
+                  variant="outlined"
+                  onChange={(e) => {
+                    // storeVal("vat", e.target.value);
+                    setMyState({ ...myState, vat: e.target.value });
+                  }}
+                />
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button
+                  onClick={(e) => {
+                    onSubmit(e, item.id);
+                    setEditOpen(false);
+                  }}
+                >
+                  Update
+                </Button>
+              </DialogActions>
+            </Dialog>
             <MDBox mb={1} lineHeight={0}>
               <MDTypography variant="caption" color="text">
                 Company Name:&nbsp;&nbsp;&nbsp;

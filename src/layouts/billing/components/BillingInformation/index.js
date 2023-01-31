@@ -106,11 +106,8 @@ function BillingInformation() {
 
   //Edit info
   const updateInfo = (id, name, company, email, vat) => {
-    console.log("inside updateTodo", name, company, email, vat);
-
     setUserInfo(
       userInfo.map((info) => {
-        console.log("todo", info);
         if (info.id === id) {
           info.name = name;
           info.company = company;
@@ -129,13 +126,11 @@ function BillingInformation() {
   const onSubmit = (event) => {
     event.preventDefault();
     // setIsSubmit(true);
-    console.log("inside onSubmit");
 
     if (editBillingInfo) {
       updateInfo(editBillingInfo.id, myState?.name, myState?.company, myState?.email, myState?.vat);
       // setIsSubmit(false);
     } else {
-      console.log(myState?.name, myState?.company, myState?.email, myState?.vat);
       handleSubmit(myState?.name, myState?.company, myState?.email, myState?.vat);
       // setIsSubmit(false);
     }
@@ -232,7 +227,7 @@ function BillingInformation() {
   //     </Dialog>
   //   );
   // };
-  console.log("mysate", myState);
+
   return (
     <Card id="delete-account">
       <MDBox pt={3} px={2} display="flex" justifyContent="space-between" alignItems="center">
@@ -314,6 +309,9 @@ function BillingInformation() {
             setEditBillingInfo={setEditBillingInfo}
             updateInfo={updateInfo}
             // dialogForm={dialogForm}
+            myState={myState}
+            setMyState={setMyState}
+            onSubmit={onSubmit}
           />
         </MDBox>
       </MDBox>
