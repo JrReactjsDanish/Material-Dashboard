@@ -28,18 +28,24 @@ import MDButton from "components/MDButton";
 import { useMaterialUIController } from "context";
 import { useEffect, useState } from "react";
 
-function Bill({ userInfo, deleteUserInfo }) {
+function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, dialogForm }) {
   const [searchInfo, setSearchInfo] = useState(userInfo);
   const [controller] = useMaterialUIController();
   const { darkMode } = controller;
 
-  const deleteBillingInfo = () => {
-    console.log("Deleted");
-  };
-
   useEffect(() => {
     userInfo && setSearchInfo(userInfo);
   }, [userInfo]);
+
+  // To update the todo with id
+  const updatedBillingInfo = ({ id }) => {
+    console.log("inside updated TODO", id);
+
+    let findInfo = userInfo.find((info) => info.id === id);
+
+    console.log("findTodo", findInfo);
+    setEditBillingInfo(findInfo);
+  };
 
   return (
     <MDBox
@@ -83,7 +89,11 @@ function Bill({ userInfo, deleteUserInfo }) {
                     <Icon>delete</Icon>&nbsp;delete
                   </MDButton>
                 </MDBox>
-                <MDButton variant="text" color={darkMode ? "white" : "dark"}>
+                <MDButton
+                  variant="text"
+                  color={darkMode ? "white" : "dark"}
+                  onClick={() => updatedBillingInfo()}
+                >
                   <Icon>edit</Icon>&nbsp;edit
                 </MDButton>
               </MDBox>
