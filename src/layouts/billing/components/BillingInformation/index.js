@@ -32,6 +32,7 @@ import TextField from "@mui/material/TextField";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import MDDialog from "components/MDDialog";
 
 function BillingInformation() {
   let data = [
@@ -156,7 +157,7 @@ function BillingInformation() {
           &nbsp;add billing info
         </MDButton>
       </MDBox>
-      <Dialog open={open} onClose={handleClose}>
+      {/* <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Bill Information</DialogTitle>
         <DialogContent>
           <TextField
@@ -217,7 +218,17 @@ function BillingInformation() {
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={(e) => onSubmit(e)}>Add</Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
+
+      {/* COMMON DIALOG COMPONENT */}
+      <MDDialog
+        open={open}
+        myState={myState}
+        setOpen={setOpen}
+        setMyState={setMyState}
+        onSubmit={onSubmit}
+        editBillingInfo={editBillingInfo}
+      />
       <MDBox pt={1} pb={2} px={2}>
         <MDBox component="ul" display="flex" flexDirection="column" p={0} m={0}>
           <Bill

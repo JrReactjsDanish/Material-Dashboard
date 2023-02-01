@@ -35,6 +35,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Button, Typography } from "@mui/material";
+import MDDialog from "components/MDDialog";
 
 function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyState, onSubmit }) {
   const [searchInfo, setSearchInfo] = useState(userInfo);
@@ -64,6 +65,11 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
       email: "",
       vat: "",
     });
+  };
+
+  const onEditSubmit = () => {
+    onSubmit(e, item.id);
+    setEditOpen(false);
   };
 
   return (
@@ -130,7 +136,17 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
                   </MDButton>
                 </MDBox>
               </MDBox>
-              <Dialog open={editOpen} onClose={handleClose}>
+
+              {/* COMMON DIALOG COMPONENT */}
+              <MDDialog
+                editOpen={editOpen}
+                setEditOpen={setEditOpen}
+                myState={myState}
+                setMyState={setMyState}
+                onEditSubmit={onEditSubmit}
+              />
+
+              {/* <Dialog open={editOpen} onClose={handleClose}>
                 <DialogTitle>Update Your Bill Information</DialogTitle>
                 <DialogContent>
                   <TextField
@@ -198,7 +214,8 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
                     Update
                   </Button>
                 </DialogActions>
-              </Dialog>
+              </Dialog> */}
+
               <MDBox mb={1} lineHeight={0}>
                 <MDTypography variant="caption" color="text">
                   Company Name:&nbsp;&nbsp;&nbsp;
