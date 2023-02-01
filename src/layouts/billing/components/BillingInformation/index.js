@@ -132,10 +132,6 @@ function BillingInformation() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <Card id="delete-account">
       <MDBox pt={3} px={2} display="flex" justifyContent="space-between" alignItems="center">
