@@ -18,9 +18,6 @@ const MDDialog = ({
   setEditOpen,
   onEditSubmit,
 }) => {
-  console.log("inside");
-  console.log("myState", myState);
-
   const handleClose = () => {
     editBillingInfo ? setEditOpen(false) : setOpen(false);
   };
@@ -87,7 +84,7 @@ const MDDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={editBillingInfo ? onEditSubmit : onSubmit}>
+        <Button onClick={editBillingInfo ? (e) => onEditSubmit(e) : onSubmit}>
           {editBillingInfo ? "Update" : "Add"}
         </Button>
       </DialogActions>

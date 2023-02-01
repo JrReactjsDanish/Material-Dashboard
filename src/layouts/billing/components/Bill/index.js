@@ -29,15 +29,18 @@ import { useMaterialUIController } from "context";
 import { useEffect, useState } from "react";
 
 // Dialog box
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Button, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import MDDialog from "components/MDDialog";
 
-function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyState, onSubmit }) {
+function Bill({
+  userInfo,
+  deleteUserInfo,
+  setEditBillingInfo,
+  myState,
+  setMyState,
+  onSubmit,
+  editBillingInfo,
+}) {
   const [searchInfo, setSearchInfo] = useState(userInfo);
   const [editOpen, setEditOpen] = useState(false);
   const [controller] = useMaterialUIController();
@@ -57,18 +60,8 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
     setEditOpen(true);
   };
 
-  const handleClose = () => {
-    setEditOpen(false);
-    setMyState({
-      name: "",
-      company: "",
-      email: "",
-      vat: "",
-    });
-  };
-
-  const onEditSubmit = () => {
-    onSubmit(e, item.id);
+  const onEditSubmit = (e) => {
+    onSubmit(e);
     setEditOpen(false);
   };
 
@@ -144,77 +137,8 @@ function Bill({ userInfo, deleteUserInfo, setEditBillingInfo, myState, setMyStat
                 myState={myState}
                 setMyState={setMyState}
                 onEditSubmit={onEditSubmit}
+                editBillingInfo={editBillingInfo}
               />
-
-              {/* <Dialog open={editOpen} onClose={handleClose}>
-                <DialogTitle>Update Your Bill Information</DialogTitle>
-                <DialogContent>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    name="name"
-                    label="Enter Name"
-                    value={myState?.name}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    onChange={(e) => {
-                      // storeVal("name", e.target.value);
-                      setMyState({ ...myState, name: e.target.value });
-                    }}
-                  />
-                  <TextField
-                    margin="dense"
-                    name="company"
-                    label="Enter Company"
-                    value={myState?.company}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    onChange={(e) => {
-                      // storeVal("company", e.target.value);
-                      setMyState({ ...myState, company: e.target.value });
-                    }}
-                  />
-                  <TextField
-                    margin="dense"
-                    name="email"
-                    label="Email Address"
-                    value={myState?.email}
-                    type="email"
-                    fullWidth
-                    variant="outlined"
-                    onChange={(e) => {
-                      // storeVal("email", e.target.value);
-                      setMyState({ ...myState, email: e.target.value });
-                    }}
-                  />
-                  <TextField
-                    margin="dense"
-                    name="vat"
-                    label="Enter VAT"
-                    value={myState?.vat}
-                    type="text"
-                    fullWidth
-                    variant="outlined"
-                    onChange={(e) => {
-                      // storeVal("vat", e.target.value);
-                      setMyState({ ...myState, vat: e.target.value });
-                    }}
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleClose}>Cancel</Button>
-                  <Button
-                    onClick={(e) => {
-                      onSubmit(e, item.id);
-                      setEditOpen(false);
-                    }}
-                  >
-                    Update
-                  </Button>
-                </DialogActions>
-              </Dialog> */}
 
               <MDBox mb={1} lineHeight={0}>
                 <MDTypography variant="caption" color="text">

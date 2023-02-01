@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import { Button, Dialog, Icon } from "@mui/material";
+import { Icon } from "@mui/material";
 import Card from "@mui/material/Card";
 
 // Material Dashboard 2 React components
@@ -27,11 +27,6 @@ import Bill from "layouts/billing/components/Bill";
 import { useState } from "react";
 
 // Dialog box
-import TextField from "@mui/material/TextField";
-// import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import MDDialog from "components/MDDialog";
 
 function BillingInformation() {
@@ -141,11 +136,6 @@ function BillingInformation() {
     setOpen(false);
   };
 
-  // const storeVal = (e) => {
-  //   var { name, value } = e;
-  //   setMyState({ ...myState, [name]: value });
-  // };
-
   return (
     <Card id="delete-account">
       <MDBox pt={3} px={2} display="flex" justifyContent="space-between" alignItems="center">
@@ -157,68 +147,6 @@ function BillingInformation() {
           &nbsp;add billing info
         </MDButton>
       </MDBox>
-      {/* <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Bill Information</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            name="name"
-            label="Enter Name"
-            value={myState?.name}
-            type="text"
-            fullWidth
-            variant="outlined"
-            onChange={(e) => {
-              // storeVal("name", e.target.value);
-              setMyState({ ...myState, name: e.target.value });
-            }}
-          />
-          <TextField
-            margin="dense"
-            name="company"
-            label="Enter Company"
-            value={myState?.company}
-            type="text"
-            fullWidth
-            variant="outlined"
-            onChange={(e) => {
-              // storeVal("company", e.target.value);
-              setMyState({ ...myState, company: e.target.value });
-            }}
-          />
-          <TextField
-            margin="dense"
-            name="email"
-            label="Email Address"
-            value={myState?.email}
-            type="email"
-            fullWidth
-            variant="outlined"
-            onChange={(e) => {
-              // storeVal("email", e.target.value);
-              setMyState({ ...myState, email: e.target.value });
-            }}
-          />
-          <TextField
-            margin="dense"
-            name="vat"
-            label="Enter VAT"
-            value={myState?.vat}
-            type="text"
-            fullWidth
-            variant="outlined"
-            onChange={(e) => {
-              // storeVal("vat", e.target.value);
-              setMyState({ ...myState, vat: e.target.value });
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={(e) => onSubmit(e)}>Add</Button>
-        </DialogActions>
-      </Dialog> */}
 
       {/* COMMON DIALOG COMPONENT */}
       <MDDialog
@@ -239,6 +167,7 @@ function BillingInformation() {
             myState={myState}
             setMyState={setMyState}
             onSubmit={onSubmit}
+            editBillingInfo={editBillingInfo}
           />
         </MDBox>
       </MDBox>
