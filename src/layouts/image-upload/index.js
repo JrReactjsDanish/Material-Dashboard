@@ -4,7 +4,6 @@ import { Box } from "@mui/system";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Card from "@mui/material/Card";
 import { useDropzone } from "react-dropzone";
-import "./styles.scss";
 import MDButton from "components/MDButton";
 import axios from "axios";
 

@@ -48,6 +48,7 @@ import SignUp from "layouts/authentication/sign-up";
 // @mui icons
 import Icon from "@mui/material/Icon";
 import ImageUpload from "layouts/image-upload";
+import ArrayFormat from "layouts/array-format";
 
 const routes = [
   {
@@ -105,6 +106,14 @@ const routes = [
     icon: <Icon fontSize="small">Image Upload</Icon>,
     route: "/layouts/image-upload",
     component: <ImageUpload />,
+  },
+  {
+    type: "collapse",
+    name: "Array Format",
+    key: "Array-Format",
+    icon: <Icon fontSize="small">Array format</Icon>,
+    route: "/layouts/array-format",
+    component: <ArrayFormat />,
   },
   {
     type: "collapse",
