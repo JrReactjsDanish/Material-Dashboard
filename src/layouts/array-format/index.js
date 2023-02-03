@@ -559,12 +559,12 @@ const ArrayFormat = () => {
 
   const [data, setData] = useState(Categories);
   const [search, setSearch] = useState([]);
+  const [myKeys, setMyKeys] = useState();
+  const [dataGroup, setDataGroup] = useState();
 
-  useEffect(() => {
-    data && setSearch(data);
-  }, [data]);
-
-  //   let grouped_data = _.groupBy(Categories.CategoryID, "length");
+  // useEffect(() => {
+  //   data && setDataGroup(data);
+  // }, [data]);
 
   // Checkbox
   const handleChange = (event, id) => {
@@ -590,23 +590,39 @@ const ArrayFormat = () => {
     setData(loopedVal);
   };
 
-  // Group by Category
-  let groupedData = _.groupBy(Categories, "Category");
-
+  //Search
   const onSearch = (e) => {
     let value = e.target.value;
     setQuery(value);
+    let groupedData1 = _.groupBy(Categories, "Category");
 
-    var filterTodo = data.filter((item) => {
-      if (e.target.value === "") {
-        return item;
-      } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
-        return item;
-      }
-    });
+    var dtGroup = dataGroup;
 
-    setSearch(filterTodo);
+    {
+      myKeys &&
+        myKeys.map((arr) => {
+          var filterInfo = groupedData1[arr].filter((item) => {
+            if (e.target.value === "") {
+              return item;
+            } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
+              return item;
+            }
+          });
+
+          dtGroup = { ...dtGroup, [arr]: filterInfo };
+        });
+    }
+    setDataGroup(dtGroup);
   };
+
+  useEffect(() => {
+    let groupedData = _.groupBy(Categories, "Category");
+
+    setDataGroup(groupedData);
+    var keys = Object.keys(groupedData);
+    console.log("USE EFFECT", groupedData);
+    setMyKeys(keys);
+  }, []);
 
   return (
     <DashboardLayout>
@@ -625,27 +641,53 @@ const ArrayFormat = () => {
           />
         </Box>
         <Box sx={{ margin: "0 auto", marginBottom: "16px", marginTop: "10px" }}>
-          <table style={{ width: 800, textAlign: "center" }}>
+          <table style={{ width: "100%", textAlign: "center" }}>
             <tbody>
-              <tr></tr>
               <tr>
-                {search?.map((item) => {
-                  return (
-                    <>
-                      <tr key={item.SubCategoryID}>
-                        <th>
-                          {groupedData.Category}
+                <>
+                  {myKeys &&
+                    myKeys.map((arr) => {
+                      return (
+                        <>
+                          <tr>
+                            <th>{arr}</th>
+                          </tr>
+
+                          <tr>
+                            {dataGroup &&
+                              dataGroup[arr] &&
+                              dataGroup[arr].map((sub) => {
+                                return (
+                                  <tr>
+                                    <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
+                                    <Checkbox
+                                      onChange={(e) => handleChange(e, sub.SubCategoryID)}
+                                    />
+                                  </tr>
+                                );
+                              })}
+                          </tr>
+                        </>
+                      );
+                    })}
+                  {/* <th>
+                          {keys.map((item) => {
+                            <tr>{item[0]}</tr>;
+                          })}
+                        </th> */}
+
+                  {/* <th key={item?.CategoryID}>
+                          {keys[item.Category]}
                           {item?.Category}
+                          {groupData} 
                         </th>
                       </tr>
 
                       <tr>
-                        <td key={item?.SubCategoryName}>{item?.SubCategoryName}</td>
+                        <td key={item?.SubCategoryID}>{item?.SubCategoryName}</td>
                         <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
-                      </tr>
-                    </>
-                  );
-                })}
+                      </tr> */}
+                </>
               </tr>
             </tbody>
           </table>
@@ -653,6 +695,6 @@ const ArrayFormat = () => {
       </Card>
     </DashboardLayout>
   );
-};
+};;;;;;;;;;;
 
 export default ArrayFormat;
