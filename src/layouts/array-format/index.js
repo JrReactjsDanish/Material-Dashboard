@@ -1,10 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Checkbox, TextField, Typography } from "@mui/material";
+import {
+  Checkbox,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Card from "@mui/material/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import _ from "lodash";
+import "./styles.scss";
 
 const ArrayFormat = () => {
   const Categories = [
@@ -627,16 +637,73 @@ const ArrayFormat = () => {
             Array Format
           </Typography>
         </Box>
-        <Box sx={{ margin: "0 auto", marginBottom: "16px" }}>
+        <Box sx={{ margin: "0 auto", marginBottom: "16px", width: 850, maxWidth: "100%" }}>
           <TextField
+            fullWidth
             value={query}
             label="Search..."
             variant="outlined"
             onChange={(e) => onSearch(e)}
+            // sx={{ minWidth: "700px" }}
           />
         </Box>
-        {items.length > 0 && (
-          <Box sx={{ margin: "0 auto", marginBottom: "16px" }}>
+
+        <TableContainer sx={{ textAlign: "left", width: "100%", padding: "20px" }}>
+          <InfiniteScroll
+            dataLength={items.length}
+            next={() => fetchData()}
+            style={{ width: "100%" }}
+            hasMore={hasMore}
+            loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>}
+            scrollableTarget="scrollableDiv"
+          >
+            <Table aria-label="simple table">
+              <TableBody>
+                {items.map((item, index) => (
+                  <TableRow sx={{ marginLeft: "10px" }} key={item.SubCategoryID}>
+                    <TableCell
+                      sx={{ borderBottom: "none", padding: "0px" }}
+                      component="th"
+                      scope="row"
+                    >
+                      <TableHead style={{ padding: "0px" }}>
+                        <TableRow style={{ textAlign: "left" }}>
+                          {index === 0 ||
+                          index === 13 ||
+                          index === 21 ||
+                          index === 34 ||
+                          index === 47 ||
+                          index === 55 ||
+                          index === 66 ? (
+                            <p
+                              style={{
+                                color: "lightblue",
+                                fontSize: "24px",
+                                textAlign: "left",
+                                padding: "0px",
+                              }}
+                            >
+                              {item.Category}
+                            </p>
+                          ) : (
+                            <></>
+                          )}
+                        </TableRow>
+                      </TableHead>
+                      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                        <p>{item.SubCategoryName}</p>
+                        <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
+                      </Box>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </InfiniteScroll>
+        </TableContainer>
+
+        {/* {items.length > 0 && (
+          <Box sx={{ margin: "0 auto", marginBottom: "16px", width: 600, maxWidth: "100%" }}>
             <InfiniteScroll
               dataLength={items.length}
               next={() => fetchData()}
@@ -648,7 +715,6 @@ const ArrayFormat = () => {
               <Box
                 sx={{
                   display: "flex",
-                  margin: "0 auto",
                   marginBottom: "16px",
                   marginTop: "10px",
                   flexDirection: "column",
@@ -658,8 +724,8 @@ const ArrayFormat = () => {
                   <tr>
                     {items.map((item, index) => {
                       return (
-                        <table style={{ margin: "0 auto" }}>
-                          <tr key={item.CategoryID}>
+                        <table style={{ width: "100%" }}>
+                          <tr key={item.CategoryID} style={{ margin: "0px", textAlign: "left" }}>
                             {index === 0 ||
                             index === 13 ||
                             index === 21 ||
@@ -667,14 +733,14 @@ const ArrayFormat = () => {
                             index === 47 ||
                             index === 55 ||
                             index === 66 ? (
-                              <th>{item.Category}</th>
+                              <th style={{ color: "lightblue" }}>{item.Category}</th>
                             ) : (
                               <></>
                             )}
                           </tr>
-                          <tr>
+                          <tr style={{ width: "100%" }}>
                             {
-                              <tr key={item.SubCategoryID}>
+                              <tr style={{ width: "100%" }} key={item.SubCategoryID}>
                                 {item.SubCategoryName}
                                 <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
                               </tr>
@@ -688,7 +754,7 @@ const ArrayFormat = () => {
               </Box>
             </InfiniteScroll>
           </Box>
-        )}
+        )} */}
       </Card>
     </DashboardLayout>
   );
