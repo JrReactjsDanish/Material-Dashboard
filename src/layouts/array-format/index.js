@@ -14,7 +14,6 @@ import { Box } from "@mui/system";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Card from "@mui/material/Card";
 import InfiniteScroll from "react-infinite-scroll-component";
-import "./styles.scss";
 
 const ArrayFormat = () => {
   const Categories = [
