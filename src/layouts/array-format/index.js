@@ -3,11 +3,10 @@ import { Checkbox, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import Card from "@mui/material/Card";
+import InfiniteScroll from "react-infinite-scroll-component";
 import _ from "lodash";
 
 const ArrayFormat = () => {
-  const [query, setQuery] = useState("");
-
   const Categories = [
     {
       CategoryID: 1,
@@ -557,14 +556,50 @@ const ArrayFormat = () => {
     },
   ];
 
+  const itemsPerPage = 10;
+
+  const [query, setQuery] = useState("");
   const [data, setData] = useState(Categories);
-  const [search, setSearch] = useState([]);
+  const [categoryData, setCategoryData] = useState([]);
   const [myKeys, setMyKeys] = useState();
   const [dataGroup, setDataGroup] = useState();
 
-  // useEffect(() => {
-  //   data && setDataGroup(data);
-  // }, [data]);
+  // For Scroller
+  // const [scrollData, setScrollData] = useState(itemsPerPage);
+  const [items, setItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Fetch data
+  const fetchData = () => {
+    const items = data.slice(0, page * 10);
+
+    setItems(items);
+    setPage(page + 1);
+    setHasMore(items.length < data.length);
+  };
+
+  // const loadMore = () => {
+  //   var splicedData = Categories.splice(0, 10).map((item) => {
+  //     setScrollData();
+  //   });
+  //   console.log("splicedData", splicedData);
+  //   setCategoryData(splicedData);
+  //   setHasMore(false);
+  //   // if (scrollData === dataGroup.length) {
+  //   //   setHasMore(false);
+  //   // } else {
+  //   //   setTimeout(() => {
+  //   //     setScrollData(scrollData + itemsPerPage);
+  //   //   }, 1500);
+  //   // }
+  // };
+
+  // console.log("scrollData", scrollData);
 
   // Checkbox
   const handleChange = (event, id) => {
@@ -585,12 +620,37 @@ const ArrayFormat = () => {
 
     var finalArrData = loopedVal.filter((item) => item.checked === true);
 
-    console.log("finalArrData", finalArrData);
+    // Store selected values in state
+    console.log(finalArrData);
 
     setData(loopedVal);
   };
 
   //Search
+  // const onSearch = (e) => {
+  //   let value = e.target.value;
+  //   setQuery(value);
+  //   let groupedData1 = _.groupBy(Categories, "Category");
+
+  //   var dtGroup = dataGroup;
+
+  //   {
+  //     myKeys &&
+  //       myKeys.map((arr) => {
+  //         var filterInfo = groupedData1[arr].filter((item) => {
+  //           if (e.target.value === "") {
+  //             return item;
+  //           } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
+  //             return item;
+  //           }
+  //         });
+
+  //         dtGroup = { ...dtGroup, [arr]: filterInfo };
+  //       });
+  //   }
+  //   setDataGroup(dtGroup);
+  // };
+
   const onSearch = (e) => {
     let value = e.target.value;
     setQuery(value);
@@ -598,30 +658,32 @@ const ArrayFormat = () => {
 
     var dtGroup = dataGroup;
 
-    {
-      myKeys &&
-        myKeys.map((arr) => {
-          var filterInfo = groupedData1[arr].filter((item) => {
-            if (e.target.value === "") {
-              return item;
-            } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
-              return item;
-            }
-          });
+    // myKeys &&
+    //   myKeys.map((arr) => {
+    console.log("items", items);
+    var filterInfo = items.filter((item) => {
+      if (e.target.value === "") {
+        return item;
+      } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
+        return item;
+      }
+    });
 
-          dtGroup = { ...dtGroup, [arr]: filterInfo };
-        });
-    }
-    setDataGroup(dtGroup);
+    // dtGroup = { ...items, items: filterInfo };
+    console.log("filterInfo", filterInfo);
+    // });
+
+    setItems(filterInfo);
+    setHasMore(false);
   };
 
   useEffect(() => {
     let groupedData = _.groupBy(Categories, "Category");
 
-    setDataGroup(groupedData);
+    setDataGroup(items);
     var keys = Object.keys(groupedData);
-    console.log("USE EFFECT", groupedData);
     setMyKeys(keys);
+    setHasMore(true);
   }, []);
 
   return (
@@ -640,61 +702,99 @@ const ArrayFormat = () => {
             onChange={(e) => onSearch(e)}
           />
         </Box>
-        <Box sx={{ margin: "0 auto", marginBottom: "16px", marginTop: "10px" }}>
-          <table style={{ width: "100%", textAlign: "center" }}>
-            <tbody>
-              <tr>
-                <>
-                  {myKeys &&
+        {/* <table style={{ width: "100%", textAlign: "center" }}>
+                <tbody>
+                  <tr>
+                    <>
+                      {myKeys &&
+                        myKeys.map((arr) => {
+                          return (
+                            <>
+                              <tr>
+                                <th>{arr}</th>
+                              </tr>
+
+                              <tr>
+                                {dataGroup &&
+                                  dataGroup[arr] &&
+                                  dataGroup[arr].map((sub) => {
+                                    return (
+                                      <tr>
+                                        <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
+                                        <Checkbox
+                                          onChange={(e) => handleChange(e, sub.SubCategoryID)}
+                                        />
+                                      </tr>
+                                    );
+                                  })}
+                              </tr>
+                            </>
+                          );
+                        })}
+                    </>
+                  </tr>
+                </tbody>
+              </table> */}
+
+        {items.length > 0 && (
+          <Box sx={{ margin: "0 auto", marginBottom: "16px" }}>
+            <InfiniteScroll
+              dataLength={items.length}
+              next={() => fetchData()}
+              style={{ width: "100%" }}
+              hasMore={hasMore}
+              loader={<h4 style={{ textAlign: "center" }}>Loading...</h4>}
+              scrollableTarget="scrollableDiv"
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  margin: "0 auto",
+                  marginBottom: "16px",
+                  marginTop: "10px",
+                  flexDirection: "column",
+                }}
+              >
+                <div>
+                  {/* {myKeys &&
                     myKeys.map((arr) => {
+                      console.log("ARR", arr);
                       return (
                         <>
                           <tr>
                             <th>{arr}</th>
                           </tr>
-
-                          <tr>
-                            {dataGroup &&
-                              dataGroup[arr] &&
-                              dataGroup[arr].map((sub) => {
-                                return (
-                                  <tr>
-                                    <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
-                                    <Checkbox
-                                      onChange={(e) => handleChange(e, sub.SubCategoryID)}
-                                    />
-                                  </tr>
-                                );
-                              })}
-                          </tr>
                         </>
                       );
+                  })} */}
+
+                  <tr>
+                    {items.map((item) => {
+                      return (
+                        <table style={{ margin: "0 auto" }}>
+                          <tr key={item.CategoryID}>
+                            <th>{item.Category}</th>
+                          </tr>
+                          <tr>
+                            {
+                              <tr key={item.SubCategoryID}>
+                                {item.SubCategoryName}
+                                <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
+                              </tr>
+                            }
+                          </tr>
+                        </table>
+                      );
                     })}
-                  {/* <th>
-                          {keys.map((item) => {
-                            <tr>{item[0]}</tr>;
-                          })}
-                        </th> */}
-
-                  {/* <th key={item?.CategoryID}>
-                          {keys[item.Category]}
-                          {item?.Category}
-                          {groupData} 
-                        </th>
-                      </tr>
-
-                      <tr>
-                        <td key={item?.SubCategoryID}>{item?.SubCategoryName}</td>
-                        <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
-                      </tr> */}
-                </>
-              </tr>
-            </tbody>
-          </table>
-        </Box>
+                  </tr>
+                </div>
+              </Box>
+            </InfiniteScroll>
+          </Box>
+        )}
       </Card>
     </DashboardLayout>
   );
-};;;;;;;;;;;
+};;;;
 
 export default ArrayFormat;
