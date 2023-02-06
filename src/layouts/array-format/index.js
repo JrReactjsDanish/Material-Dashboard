@@ -607,7 +607,6 @@ const ArrayFormat = () => {
     let value = e.target.value;
     setQuery(value);
 
-    console.log("items", items);
     var filterInfo = data.filter((item) => {
       if (e.target.value === "") {
         return item;
@@ -616,15 +615,9 @@ const ArrayFormat = () => {
       }
     });
 
-    console.log("filterInfo", filterInfo);
-
     setItems(filterInfo);
     setHasMore(false);
   };
-
-  useEffect(() => {
-    setHasMore(true);
-  }, []);
 
   return (
     <DashboardLayout>
@@ -642,40 +635,6 @@ const ArrayFormat = () => {
             onChange={(e) => onSearch(e)}
           />
         </Box>
-        {/* <table style={{ width: "100%", textAlign: "center" }}>
-                <tbody>
-                  <tr>
-                    <>
-                      {myKeys &&
-                        myKeys.map((arr) => {
-                          return (
-                            <>
-                              <tr>
-                                <th>{arr}</th>
-                              </tr>
-
-                              <tr>
-                                {dataGroup &&
-                                  dataGroup[arr] &&
-                                  dataGroup[arr].map((sub) => {
-                                    return (
-                                      <tr>
-                                        <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
-                                        <Checkbox
-                                          onChange={(e) => handleChange(e, sub.SubCategoryID)}
-                                        />
-                                      </tr>
-                                    );
-                                  })}
-                              </tr>
-                            </>
-                          );
-                        })}
-                    </>
-                  </tr>
-                </tbody>
-              </table> */}
-
         {items.length > 0 && (
           <Box sx={{ margin: "0 auto", marginBottom: "16px" }}>
             <InfiniteScroll
@@ -733,6 +692,42 @@ const ArrayFormat = () => {
       </Card>
     </DashboardLayout>
   );
-};;;;;;
+};
 
 export default ArrayFormat;
+
+{
+  /* <table style={{ width: "100%", textAlign: "center" }}>
+                <tbody>
+                  <tr>
+                    <>
+                      {myKeys &&
+                        myKeys.map((arr) => {
+                          return (
+                            <>
+                              <tr>
+                                <th>{arr}</th>
+                              </tr>
+
+                              <tr>
+                                {dataGroup &&
+                                  dataGroup[arr] &&
+                                  dataGroup[arr].map((sub) => {
+                                    return (
+                                      <tr>
+                                        <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
+                                        <Checkbox
+                                          onChange={(e) => handleChange(e, sub.SubCategoryID)}
+                                        />
+                                      </tr>
+                                    );
+                                  })}
+                              </tr>
+                            </>
+                          );
+                        })}
+                    </>
+                  </tr>
+                </tbody>
+              </table> */
+}
