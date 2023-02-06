@@ -701,8 +701,51 @@ const ArrayFormat = () => {
             </Table>
           </InfiniteScroll>
         </TableContainer>
+      </Card>
+    </DashboardLayout>
+  );
+};
 
-        {/* {items.length > 0 && (
+export default ArrayFormat;
+
+{
+  /* <table style={{ width: "100%", textAlign: "center" }}>
+                <tbody>
+                  <tr>
+                    <>
+                      {myKeys &&
+                        myKeys.map((arr) => {
+                          return (
+                            <>
+                              <tr>
+                                <th>{arr}</th>
+                              </tr>
+
+                              <tr>
+                                {dataGroup &&
+                                  dataGroup[arr] &&
+                                  dataGroup[arr].map((sub) => {
+                                    return (
+                                      <tr>
+                                        <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
+                                        <Checkbox
+                                          onChange={(e) => handleChange(e, sub.SubCategoryID)}
+                                        />
+                                      </tr>
+                                    );
+                                  })}
+                              </tr>
+                            </>
+                          );
+                        })}
+                    </>
+                  </tr>
+                </tbody>
+              </table> */
+}
+
+{
+  /* {items.length > 0 && (
           <Box sx={{ margin: "0 auto", marginBottom: "16px", width: 600, maxWidth: "100%" }}>
             <InfiniteScroll
               dataLength={items.length}
@@ -754,46 +797,5 @@ const ArrayFormat = () => {
               </Box>
             </InfiniteScroll>
           </Box>
-        )} */}
-      </Card>
-    </DashboardLayout>
-  );
-};
-
-export default ArrayFormat;
-
-{
-  /* <table style={{ width: "100%", textAlign: "center" }}>
-                <tbody>
-                  <tr>
-                    <>
-                      {myKeys &&
-                        myKeys.map((arr) => {
-                          return (
-                            <>
-                              <tr>
-                                <th>{arr}</th>
-                              </tr>
-
-                              <tr>
-                                {dataGroup &&
-                                  dataGroup[arr] &&
-                                  dataGroup[arr].map((sub) => {
-                                    return (
-                                      <tr>
-                                        <td key={sub?.SubCategoryName}>{sub?.SubCategoryName}</td>
-                                        <Checkbox
-                                          onChange={(e) => handleChange(e, sub.SubCategoryID)}
-                                        />
-                                      </tr>
-                                    );
-                                  })}
-                              </tr>
-                            </>
-                          );
-                        })}
-                    </>
-                  </tr>
-                </tbody>
-              </table> */
+        )} */
 }
