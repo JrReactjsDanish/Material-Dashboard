@@ -556,16 +556,10 @@ const ArrayFormat = () => {
     },
   ];
 
-  const itemsPerPage = 10;
-
   const [query, setQuery] = useState("");
   const [data, setData] = useState(Categories);
-  const [categoryData, setCategoryData] = useState([]);
-  const [myKeys, setMyKeys] = useState();
-  const [dataGroup, setDataGroup] = useState();
 
   // For Scroller
-  // const [scrollData, setScrollData] = useState(itemsPerPage);
   const [items, setItems] = useState([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -608,40 +602,11 @@ const ArrayFormat = () => {
     setData(loopedVal);
   };
 
-  //Search
-  // const onSearch = (e) => {
-  //   let value = e.target.value;
-  //   setQuery(value);
-  //   let groupedData1 = _.groupBy(Categories, "Category");
-
-  //   var dtGroup = dataGroup;
-
-  //   {
-  //     myKeys &&
-  //       myKeys.map((arr) => {
-  //         var filterInfo = groupedData1[arr].filter((item) => {
-  //           if (e.target.value === "") {
-  //             return item;
-  //           } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
-  //             return item;
-  //           }
-  //         });
-
-  //         dtGroup = { ...dtGroup, [arr]: filterInfo };
-  //       });
-  //   }
-  //   setDataGroup(dtGroup);
-  // };
-
+  // Search Functionality
   const onSearch = (e) => {
     let value = e.target.value;
     setQuery(value);
-    let groupedData1 = _.groupBy(Categories, "Category");
 
-    var dtGroup = dataGroup;
-
-    // myKeys &&
-    //   myKeys.map((arr) => {
     console.log("items", items);
     var filterInfo = data.filter((item) => {
       if (e.target.value === "") {
@@ -651,20 +616,13 @@ const ArrayFormat = () => {
       }
     });
 
-    // dtGroup = { ...data, filterInfo };
     console.log("filterInfo", filterInfo);
-    // });
 
     setItems(filterInfo);
     setHasMore(false);
-  };;
+  };
 
   useEffect(() => {
-    let groupedData = _.groupBy(Categories, "Category");
-
-    setDataGroup(items);
-    // var keys = Object.keys(groupedData);
-    // setMyKeys(keys);
     setHasMore(true);
   }, []);
 
@@ -738,24 +696,22 @@ const ArrayFormat = () => {
                 }}
               >
                 <div>
-                  {/* {myKeys &&
-                    myKeys.map((arr) => {
-                      console.log("ARR", arr);
-                      return (
-                        <>
-                          <tr>
-                            <th>{arr}</th>
-                          </tr>
-                        </>
-                      );
-                  })} */}
-
                   <tr>
                     {items.map((item, index) => {
                       return (
                         <table style={{ margin: "0 auto" }}>
                           <tr key={item.CategoryID}>
-                            {index === 0 ? <th>{item.Category}</th> : <></>}
+                            {index === 0 ||
+                            index === 13 ||
+                            index === 21 ||
+                            index === 34 ||
+                            index === 47 ||
+                            index === 55 ||
+                            index === 66 ? (
+                              <th>{item.Category}</th>
+                            ) : (
+                              <></>
+                            )}
                           </tr>
                           <tr>
                             {
@@ -777,6 +733,6 @@ const ArrayFormat = () => {
       </Card>
     </DashboardLayout>
   );
-};;;;
+};;;;;;
 
 export default ArrayFormat;
