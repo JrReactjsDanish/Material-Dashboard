@@ -583,24 +583,6 @@ const ArrayFormat = () => {
     setHasMore(items.length < data.length);
   };
 
-  // const loadMore = () => {
-  //   var splicedData = Categories.splice(0, 10).map((item) => {
-  //     setScrollData();
-  //   });
-  //   console.log("splicedData", splicedData);
-  //   setCategoryData(splicedData);
-  //   setHasMore(false);
-  //   // if (scrollData === dataGroup.length) {
-  //   //   setHasMore(false);
-  //   // } else {
-  //   //   setTimeout(() => {
-  //   //     setScrollData(scrollData + itemsPerPage);
-  //   //   }, 1500);
-  //   // }
-  // };
-
-  // console.log("scrollData", scrollData);
-
   // Checkbox
   const handleChange = (event, id) => {
     event.preventDefault();
@@ -661,28 +643,28 @@ const ArrayFormat = () => {
     // myKeys &&
     //   myKeys.map((arr) => {
     console.log("items", items);
-    var filterInfo = items.filter((item, index) => {
+    var filterInfo = data.filter((item) => {
       if (e.target.value === "") {
-        return data[index];
+        return item;
       } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
         return item;
       }
     });
 
-    // dtGroup = { ...items, items: filterInfo };
+    // dtGroup = { ...data, filterInfo };
     console.log("filterInfo", filterInfo);
     // });
 
     setItems(filterInfo);
     setHasMore(false);
-  };
+  };;
 
   useEffect(() => {
     let groupedData = _.groupBy(Categories, "Category");
 
     setDataGroup(items);
-    var keys = Object.keys(groupedData);
-    setMyKeys(keys);
+    // var keys = Object.keys(groupedData);
+    // setMyKeys(keys);
     setHasMore(true);
   }, []);
 
