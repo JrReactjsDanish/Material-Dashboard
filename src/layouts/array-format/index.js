@@ -659,7 +659,7 @@ const ArrayFormat = () => {
             <Table aria-label="simple table">
               <TableBody>
                 {items.map((item, index) => (
-                  <TableRow sx={{ marginLeft: "10px" }} key={item.SubCategoryID}>
+                  <TableRow key={item.SubCategoryID}>
                     <TableCell
                       sx={{ borderBottom: "none", padding: "0px" }}
                       component="th"
@@ -680,6 +680,7 @@ const ArrayFormat = () => {
                                 fontSize: "24px",
                                 textAlign: "left",
                                 padding: "0px",
+                                marginLeft: "10px",
                               }}
                             >
                               {item.Category}
@@ -690,7 +691,7 @@ const ArrayFormat = () => {
                         </TableRow>
                       </TableHead>
                       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                        <p>{item.SubCategoryName}</p>
+                        <p style={{ marginLeft: "10px" }}>{item.SubCategoryName}</p>
                         <Checkbox onChange={(e) => handleChange(e, item.SubCategoryID)} />
                       </Box>
                     </TableCell>
