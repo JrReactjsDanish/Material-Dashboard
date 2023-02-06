@@ -661,9 +661,9 @@ const ArrayFormat = () => {
     // myKeys &&
     //   myKeys.map((arr) => {
     console.log("items", items);
-    var filterInfo = items.filter((item) => {
+    var filterInfo = items.filter((item, index) => {
       if (e.target.value === "") {
-        return item;
+        return data[index];
       } else if (item.SubCategoryName.toLowerCase().includes(value?.toLowerCase())) {
         return item;
       }
@@ -769,11 +769,11 @@ const ArrayFormat = () => {
                   })} */}
 
                   <tr>
-                    {items.map((item) => {
+                    {items.map((item, index) => {
                       return (
                         <table style={{ margin: "0 auto" }}>
                           <tr key={item.CategoryID}>
-                            <th>{item.Category}</th>
+                            {index === 0 ? <th>{item.Category}</th> : <></>}
                           </tr>
                           <tr>
                             {
